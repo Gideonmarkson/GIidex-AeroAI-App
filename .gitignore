@@ -1,0 +1,18 @@
+# Exclude README and PRD as specified by user
+README.md
+readme.md
+*PRD*
+*prd*
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# System / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
