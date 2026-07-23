@@ -415,7 +415,7 @@
                 </span>
               </div>
               <div class="relative rounded-lg overflow-hidden img-blend-container aspect-video">
-                <img id="engine-live-img" src="engine_nominal.jpg" alt="Jet Engine Hardware View" class="w-full h-full object-cover transition-all duration-500">
+                <img id="engine-live-img" src="./engine_nominal.jpg" onerror="this.onerror=null; this.src='engine_nominal.jpg';" alt="Jet Engine Hardware View" class="w-full h-full object-cover transition-all duration-500">
                 <div class="absolute inset-0 bg-gradient-to-t from-[#0B0F17]/80 via-transparent to-transparent"></div>
                 
                 <div class="absolute top-3 left-3 bg-[#0B0F17]/90 backdrop-blur-md p-2.5 rounded border border-[#232D3F] shadow-sm font-mono text-[11px] space-y-1">
@@ -615,7 +615,7 @@
                 </span>
               </div>
               <div class="relative rounded-lg overflow-hidden img-blend-container aspect-video">
-                <img id="aircraft-live-img" src="digital_twin.jpg" alt="Digital Twin View" class="w-full h-full object-cover transition-all duration-500">
+                <img id="aircraft-live-img" src="./digital_twin.jpg" onerror="this.onerror=null; this.src='digital_twin.jpg';" alt="Digital Twin View" class="w-full h-full object-cover transition-all duration-500">
                 <div class="absolute inset-0 bg-gradient-to-t from-[#0B0F17]/80 via-transparent to-transparent"></div>
               </div>
             </div>
@@ -1179,7 +1179,8 @@
       if (anomalyScore >= 75) {
         latestAiStatus = 'CRITICAL ALERT';
         latestAiText = 'Neural Pattern Alert: High probability of catastrophic turbine blade creep, rotor imbalance, or bearing seizure. Immediate shutdown advised.';
-        liveImg.src = 'engine_critical.jpg';
+        liveImg.src = './engine_critical.jpg';
+        liveImg.onerror = function() { this.onerror=null; this.src='engine_critical.jpg'; };
         imgCard.className = 'aero-panel rounded-lg p-4 border-red-500/60 relative overflow-hidden transition-all duration-300';
         hudTag.innerText = 'STAGE 3: CATASTROPHIC THERMAL CRACKING';
         badge.innerText = 'CRITICAL SYSTEM FAILURE IMMINENT';
@@ -1189,7 +1190,8 @@
       } else if (anomalyScore >= 40) {
         latestAiStatus = 'EARLY WARNING';
         latestAiText = 'Neural Pattern Alert: Coupled vibration harmonics, compressor erosion, and oil contamination indicate early bearing race spallation.';
-        liveImg.src = 'engine_warning.jpg';
+        liveImg.src = './engine_warning.jpg';
+        liveImg.onerror = function() { this.onerror=null; this.src='engine_warning.jpg'; };
         imgCard.className = 'aero-panel rounded-lg p-4 border-cyan-500/40 relative overflow-hidden transition-all duration-300';
         hudTag.innerText = 'STAGE 2: THERMAL OVERHEATING & WEAR';
         badge.innerText = 'EARLY MULTIVARIATE DEGRADATION';
@@ -1199,7 +1201,8 @@
       } else {
         latestAiStatus = 'OPTIMAL';
         latestAiText = 'Multivariate neural network detects normal operational signatures across all 7 telemetry channels.';
-        liveImg.src = 'engine_nominal.jpg';
+        liveImg.src = './engine_nominal.jpg';
+        liveImg.onerror = function() { this.onerror=null; this.src='engine_nominal.jpg'; };
         imgCard.className = 'aero-panel rounded-lg p-4 border-[#232D3F] relative overflow-hidden transition-all duration-300';
         hudTag.innerText = 'STAGE 1: PRISTINE OPERATION';
         badge.innerText = 'HEALTHY SYSTEM - NO ANOMALIES';
@@ -1245,10 +1248,12 @@
       const twinTag = document.getElementById('twin-hud-tag');
 
       if (stress >= 500 || mach >= 2.5) {
-        twinImg.src = 'aircraft_critical.jpg';
+        twinImg.src = './aircraft_critical.jpg';
+        twinImg.onerror = function() { this.onerror=null; this.src='aircraft_critical.jpg'; };
         twinTag.innerText = 'HIGH STRUCTURAL STRAIN';
       } else {
-        twinImg.src = 'digital_twin.jpg';
+        twinImg.src = './digital_twin.jpg';
+        twinImg.onerror = function() { this.onerror=null; this.src='digital_twin.jpg'; };
         twinTag.innerText = 'NOMINAL WIREFRAME';
       }
 
