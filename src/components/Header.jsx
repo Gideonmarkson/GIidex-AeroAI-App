@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Cpu, Activity, ShieldCheck, RefreshCw, Printer, BookOpen, Gauge, Layers, Compass } from 'lucide-react';
 
-export default function Header({ activeTab, setActiveTab, onReset }) {
+export default function Header({ activeTab, setActiveTab, onReset, onOpenHowItWorks }) {
   const [timeStr, setTimeStr] = useState('');
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const updateTime = () => {
@@ -15,71 +15,124 @@ export default function Header({ activeTab, setActiveTab, onReset }) {
   }, []);
 
   const tabs = [
-    { id: 'overview', label: 'Overview & History', icon: BookOpen },
-    { id: 'diagnostics', label: 'Engine Diagnostics', icon: Gauge },
-    { id: 'digital-twin', label: 'Airframe Twin', icon: Layers },
-    { id: 'trajectory', label: 'Trajectory Optimization', icon: Compass },
-    { id: 'quiz', label: 'Quiz (10 Qs)', icon: BookOpen },
-    { id: 'cheat-sheet', label: 'Reference PDF', icon: Printer },
+    { id: 'overview', label: '01 Overview' },
+    { id: 'diagnostics', label: '02 Diagnostics' },
+    { id: 'digital-twin', label: '03 Digital Twin' },
+    { id: 'trajectory', label: '04 Trajectory' },
+    { id: 'quiz', label: '05 Assessment' },
+    { id: 'cheat-sheet', label: '06 PDF Report' },
   ];
 
   return (
-    <header className="sticky top-0 z-50 aero-panel border-b border-[#232D3F] px-4 lg:px-8 py-3.5 mb-6 no-print">
-      <div className="max-w-7xl mx-auto flex flex-col xl:flex-row items-center justify-between gap-4">
-        {/* Brand & Telemetry */}
-        <div className="flex items-center gap-3.5 shrink-0">
-          <div className="p-2.5 rounded-lg bg-[#1E293B] border border-[#232D3F] text-cyan-400 shadow-sm">
-            <Cpu className="w-6 h-6 animate-pulse" />
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 px-4 lg:px-8 py-3.5 no-print font-sans">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+        
+        {/* Brand Identity */}
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+            G
           </div>
           <div>
-            <div class="flex items-center gap-2">
-              <h1 className="text-lg font-bold tracking-tight text-white">
+            <div className="flex items-center gap-2">
+              <h1 className="text-base font-bold tracking-tight text-gray-900 whitespace-nowrap">
                 Gidex AeroAI Explorer
               </h1>
-              <span className="text-[10px] uppercase font-mono px-2.5 py-0.5 rounded bg-[#1E293B] text-cyan-400 border border-[#232D3F] font-bold">
-                TELEMETRY SUITE
+              <span className="text-[11px] mono-data px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 font-semibold border border-blue-100">
+                v1.6 Enterprise
               </span>
             </div>
-            <p className="text-xs text-[#CBD5E1] font-mono flex items-center gap-2 mt-0.5">
-              <span>FLIGHT SYSTEM TELEMETRY</span> • <span className="text-cyan-400 font-bold">{timeStr}</span> • <span className="text-slate-300 flex items-center gap-1 font-semibold"><ShieldCheck className="w-3.5 h-3.5 text-cyan-400"/> PALANTIR / NASA FLIGHT SUITE</span>
+            <p className="text-xs text-gray-500 flex items-center gap-2 mt-0.5">
+              <span>Next-Gen Avionics</span> • <span className="text-gray-900 font-medium mono-data">{timeStr}</span> • 
+              <span className="text-emerald-600 font-semibold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Live Telemetry</span>
             </p>
           </div>
         </div>
 
-        {/* Tab Navigation - Fully Visible Grid Bar without slider */}
-        <nav className="w-full xl:w-auto bg-[#0B0F17] p-1.5 rounded-lg border border-[#232D3F] grid grid-cols-2 sm:grid-cols-3 xl:flex xl:flex-wrap xl:items-center gap-1.5">
+        {/* Desktop Navigation Pill Tabs */}
+        <nav className="hidden lg:flex items-center gap-1 bg-gray-100/80 p-1.5 rounded-full border border-gray-200 text-xs font-semibold text-gray-600">
           {tabs.map((tab) => {
-            const Icon = tab.icon;
             const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-2 rounded-lg text-xs font-medium transition-all text-center ${
+                className={`px-4 py-2 rounded-full transition-all whitespace-nowrap ${
                   isActive
-                    ? 'bg-[#06B6D4] text-[#0B0F17] font-bold shadow-sm'
-                    : 'text-slate-300 hover:text-white bg-[#1E293B] hover:bg-[#283548]'
+                    ? 'nav-tab-active bg-blue-600 text-white font-semibold'
+                    : 'hover:text-gray-900 hover:bg-white/60'
                 }`}
               >
-                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#0B0F17]' : 'text-cyan-400'}`} />
                 <span>{tab.label}</span>
               </button>
             );
           })}
         </nav>
 
-        {/* Action Controls */}
-        <div className="flex items-center gap-2 shrink-0">
+        {/* Right Header Action Controls */}
+        <div className="flex items-center gap-3 shrink-0 text-xs font-semibold">
+          <button
+            onClick={onOpenHowItWorks}
+            className="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-800 transition"
+            title="Quick User Guide & Concepts"
+          >
+            User Guide
+          </button>
+
           <button
             onClick={onReset}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-mono font-medium text-slate-200 hover:text-white bg-[#1E293B] hover:bg-[#283548] border border-[#232D3F] transition"
+            className="hidden sm:inline-block px-4 py-2 rounded-full bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 shadow-sm transition"
             title="Reset active simulation sliders to baseline"
           >
-            <RefreshCw className="w-3.5 h-3.5 text-cyan-400" />
-            Reset Telemetry
+            Reset
+          </button>
+
+          {/* Hamburger Toggle Button for Mobile (< LG) */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="lg:hidden px-3 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-800 transition"
+            title="Toggle Navigation Menu"
+          >
+            Menu
           </button>
         </div>
       </div>
+
+      {/* Mobile Collapsible Navigation Drawer */}
+      {mobileMenuOpen && (
+        <div className="lg:hidden pt-3 border-t border-gray-200 mt-3 space-y-1.5 text-xs font-semibold">
+          {tabs.map((tab) => {
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  setMobileMenuOpen(false);
+                }}
+                className={`w-full text-left px-4 py-2.5 rounded-xl transition-all ${
+                  isActive
+                    ? 'bg-blue-600 text-white'
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
+
+          <div className="pt-2 sm:hidden">
+            <button
+              onClick={() => {
+                onReset();
+                setMobileMenuOpen(false);
+              }}
+              className="w-full text-center px-4 py-2 rounded-full text-xs text-gray-700 bg-white border border-gray-300 shadow-sm"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

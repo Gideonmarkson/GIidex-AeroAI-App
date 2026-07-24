@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Flame, Activity, Gauge, Droplets, Wind, AlertCircle, Zap, ShieldAlert, Sparkles, CheckCircle2 } from 'lucide-react';
+import React, { useState } from 'react';
+import { Flame, Activity, Gauge, Droplets, Wind, AlertCircle, Zap, ShieldAlert, Sparkles, CheckCircle2, Eye, ArrowRightLeft } from 'lucide-react';
 import { evaluateEngineState, ENGINE_PRESETS } from '../utils/aiModels';
 import ModelComparisonToggle from './ModelComparisonToggle';
 import jetEngineImg from '../assets/jet_engine.jpg';
@@ -31,71 +31,54 @@ export default function EngineDiagnostics({ sliders, setSliders }) {
   };
 
   return (
-    <div className="space-y-8 animate-fadeIn">
-      {/* Module Overview Banner */}
-      <div className="glass-panel rounded-2xl p-6 border-cyan-500/20 relative overflow-hidden">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-6">
-          <div className="space-y-2 max-w-2xl">
-            <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/20 text-cyan-300 text-[11px] font-mono font-bold uppercase tracking-wider border border-cyan-400/30">
-                MODULE 01 • REAL-TIME SIMULATION
-              </span>
-            </div>
-            <h2 className="text-2xl font-black text-white tracking-wide">
-              Predictive Jet Engine Diagnostics
-            </h2>
-            <p className="text-xs text-gray-300 leading-relaxed">
-              Adjust thermodynamic and mechanical telemetry sliders to simulate jet engine operating conditions. 
-              Observe how single-parameter physics threshold rules compare with multivariate AI neural network pattern recognition.
-            </p>
+    <div className="space-y-4 animate-fadeIn">
+      {/* Compact Control Banner & Preset Scenarios */}
+      <div className="aero-panel rounded-lg p-3.5 border-[#232D3F]">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5">
+            <span className="px-2 py-0.5 rounded bg-[#1E293B] text-cyan-400 text-[10px] font-mono font-bold uppercase tracking-wider border border-[#232D3F]">
+              MODULE 01 • TELEMETRY DASHBOARD
+            </span>
+            <h2 class="text-base font-bold text-white tracking-tight">Predictive Engine Diagnostics</h2>
           </div>
 
-          {/* Quick Presets Selector */}
-          <div className="bg-gray-900/90 p-4 rounded-xl border border-gray-800 space-y-2 w-full lg:w-auto shrink-0">
-            <span className="text-[11px] font-mono text-gray-400 uppercase tracking-wider block font-semibold flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-              Preset Scenarios (1-Click Test):
-            </span>
-            <div className="flex flex-wrap gap-2">
-              {Object.entries(ENGINE_PRESETS).map(([key, preset]) => (
-                <button
-                  key={key}
-                  onClick={() => applyPreset(key)}
-                  className="px-2.5 py-1.5 rounded-lg text-xs font-medium bg-gray-800 hover:bg-cyan-500/20 text-gray-200 hover:text-cyan-300 border border-gray-700 hover:border-cyan-400 transition"
-                  title={preset.description}
-                >
-                  {preset.name}
-                </button>
-              ))}
-            </div>
+          {/* Quick Presets Bar */}
+          <div className="flex items-center gap-1.5 flex-wrap w-full md:w-auto">
+            <span className="text-[10px] font-mono text-[#CBD5E1] uppercase font-bold hidden xl:inline">Presets:</span>
+            {Object.entries(ENGINE_PRESETS).map(([key, preset]) => (
+              <button
+                key={key}
+                onClick={() => applyPreset(key)}
+                className="px-2.5 py-1 rounded text-[11px] font-medium bg-[#1E293B] hover:bg-[#283548] text-slate-200 border border-[#232D3F] transition"
+                title={preset.description}
+              >
+                {preset.name}
+              </button>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Main Dual-Pane Dashboard Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      {/* Unified Single-Screen Cockpit Dashboard Grid (Visible All At Once On Desktop, Superb Responsive Mobile View) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
         
-        {/* Left Pane: Telemetry Controls & Live Sliders (7 Cols) */}
-        <div className="lg:col-span-7 space-y-6">
-          <div className="glass-panel rounded-2xl p-6 border-cyan-500/20 space-y-6">
-            <div className="flex items-center justify-between pb-3 border-b border-gray-800">
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <Gauge className="w-4 h-4 text-cyan-400" />
-                Turbine Telemetry Sliders
+        {/* Column 1: Telemetry Inputs (4 Cols on Desktop) */}
+        <div className="lg:col-span-4 space-y-2.5">
+          <div className="aero-panel rounded-lg p-4 border-[#232D3F] space-y-2.5">
+            <div className="flex items-center justify-between pb-2 border-b border-[#232D3F]">
+              <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+                <Gauge className="w-3.5 h-3.5 text-cyan-400" /> Telemetry Inputs
               </h3>
-              <span className="text-xs text-gray-400 font-mono">5 Channels Active</span>
+              <span className="text-[10px] text-cyan-400 font-mono font-bold">5 CHANNELS</span>
             </div>
 
-            {/* Slider 1: Turbine Inlet Temperature */}
-            <div className="space-y-2 bg-gray-900/50 p-4 rounded-xl border border-gray-800/80">
-              <div className="flex items-center justify-between text-xs">
-                <label className="font-semibold text-gray-200 flex items-center gap-2">
-                  <Flame className="w-4 h-4 text-orange-400" />
-                  Turbine Inlet Temperature (TIT)
+            {/* Slider 1: TIT Temp */}
+            <div className="space-y-1 bg-[#0B0F17] p-2.5 rounded border border-[#232D3F]">
+              <div className="flex items-center justify-between text-[11px]">
+                <label className="font-semibold text-slate-200 flex items-center gap-1">
+                  <Flame className="w-3 h-3 text-cyan-400" /> TIT Temp
                 </label>
-                <span className={`font-mono font-bold px-2 py-0.5 rounded text-xs ${
-                  sliders.temp > 1100 ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-cyan-500/10 text-cyan-300'
-                }`}>
+                <span className="font-mono font-bold px-1.5 py-0.5 rounded text-[10px] bg-[#1E293B] text-cyan-400 border border-[#232D3F]">
                   {sliders.temp}°C
                 </span>
               </div>
@@ -108,24 +91,15 @@ export default function EngineDiagnostics({ sliders, setSliders }) {
                 onChange={(e) => handleSliderChange('temp', e.target.value)}
                 className="w-full accent-cyan-400 cursor-pointer"
               />
-              <div className="flex justify-between text-[10px] font-mono text-gray-400">
-                <span>400°C (Idle)</span>
-                <span>Nominal: 850°C</span>
-                <span className="text-red-400">1100°C (Limit)</span>
-                <span>1400°C (Max)</span>
-              </div>
             </div>
 
-            {/* Slider 2: Engine Vibration Level */}
-            <div className="space-y-2 bg-gray-900/50 p-4 rounded-xl border border-gray-800/80">
-              <div className="flex items-center justify-between text-xs">
-                <label className="font-semibold text-gray-200 flex items-center gap-2">
-                  <Activity className="w-4 h-4 text-amber-400" />
-                  Rotor Vibration Acceleration (G)
+            {/* Slider 2: Rotor Vibration */}
+            <div className="space-y-1 bg-[#0B0F17] p-2.5 rounded border border-[#232D3F]">
+              <div className="flex items-center justify-between text-[11px]">
+                <label className="font-semibold text-slate-200 flex items-center gap-1">
+                  <Activity className="w-3 h-3 text-cyan-400" /> Rotor Vibration
                 </label>
-                <span className={`font-mono font-bold px-2 py-0.5 rounded text-xs ${
-                  sliders.vibration > 7.0 ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-cyan-500/10 text-cyan-300'
-                }`}>
+                <span className="font-mono font-bold px-1.5 py-0.5 rounded text-[10px] bg-[#1E293B] text-cyan-400 border border-[#232D3F]">
                   {sliders.vibration.toFixed(1)} G
                 </span>
               </div>
@@ -136,26 +110,17 @@ export default function EngineDiagnostics({ sliders, setSliders }) {
                 step="0.1"
                 value={sliders.vibration}
                 onChange={(e) => handleSliderChange('vibration', e.target.value)}
-                className="w-full accent-amber-400 cursor-pointer"
+                className="w-full accent-cyan-400 cursor-pointer"
               />
-              <div className="flex justify-between text-[10px] font-mono text-gray-400">
-                <span>0.1G (Smooth)</span>
-                <span>Nominal: 1.2G</span>
-                <span className="text-amber-400">7.0G (Limit)</span>
-                <span>10.0G (Critical)</span>
-              </div>
             </div>
 
-            {/* Slider 3: Fuel Injection Pressure */}
-            <div className="space-y-2 bg-gray-900/50 p-4 rounded-xl border border-gray-800/80">
-              <div className="flex items-center justify-between text-xs">
-                <label className="font-semibold text-gray-200 flex items-center gap-2">
-                  <Zap className="w-4 h-4 text-blue-400" />
-                  Fuel Manifold Pressure (PSI)
+            {/* Slider 3: Fuel Pressure */}
+            <div className="space-y-1 bg-[#0B0F17] p-2.5 rounded border border-[#232D3F]">
+              <div className="flex items-center justify-between text-[11px]">
+                <label className="font-semibold text-slate-200 flex items-center gap-1">
+                  <Zap className="w-3 h-3 text-cyan-400" /> Fuel Pressure
                 </label>
-                <span className={`font-mono font-bold px-2 py-0.5 rounded text-xs ${
-                  sliders.pressure < 300 ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-cyan-500/10 text-cyan-300'
-                }`}>
+                <span className="font-mono font-bold px-1.5 py-0.5 rounded text-[10px] bg-[#1E293B] text-cyan-400 border border-[#232D3F]">
                   {sliders.pressure} PSI
                 </span>
               </div>
@@ -166,23 +131,17 @@ export default function EngineDiagnostics({ sliders, setSliders }) {
                 step="10"
                 value={sliders.pressure}
                 onChange={(e) => handleSliderChange('pressure', e.target.value)}
-                className="w-full accent-blue-400 cursor-pointer"
+                className="w-full accent-cyan-400 cursor-pointer"
               />
-              <div className="flex justify-between text-[10px] font-mono text-gray-400">
-                <span className="text-red-400">200 (Drop)</span>
-                <span>Nominal: 650 PSI</span>
-                <span>1200 PSI</span>
-              </div>
             </div>
 
-            {/* Slider 4: Oil Contamination % */}
-            <div className="space-y-2 bg-gray-900/50 p-4 rounded-xl border border-gray-800/80">
-              <div className="flex items-center justify-between text-xs">
-                <label className="font-semibold text-gray-200 flex items-center gap-2">
-                  <Droplets className="w-4 h-4 text-emerald-400" />
-                  Lube Oil Debris & Contamination (%)
+            {/* Slider 4: Lube Oil Contamination */}
+            <div className="space-y-1 bg-[#0B0F17] p-2.5 rounded border border-[#232D3F]">
+              <div className="flex items-center justify-between text-[11px]">
+                <label className="font-semibold text-slate-200 flex items-center gap-1">
+                  <Droplets className="w-3 h-3 text-cyan-400" /> Lube Oil Debris
                 </label>
-                <span className="font-mono font-bold px-2 py-0.5 rounded text-xs bg-cyan-500/10 text-cyan-300">
+                <span className="font-mono font-bold px-1.5 py-0.5 rounded text-[10px] bg-[#1E293B] text-cyan-400 border border-[#232D3F]">
                   {sliders.oilContam}%
                 </span>
               </div>
@@ -193,24 +152,17 @@ export default function EngineDiagnostics({ sliders, setSliders }) {
                 step="1"
                 value={sliders.oilContam}
                 onChange={(e) => handleSliderChange('oilContam', e.target.value)}
-                className="w-full accent-emerald-400 cursor-pointer"
+                className="w-full accent-cyan-400 cursor-pointer"
               />
-              <div className="flex justify-between text-[10px] font-mono text-gray-400">
-                <span>0% (Clean)</span>
-                <span>Nominal: &lt;15%</span>
-                <span className="text-amber-400">60% (High Debris)</span>
-                <span>100%</span>
-              </div>
             </div>
 
-            {/* Slider 5: Air Intake Pressure Ratio */}
-            <div className="space-y-2 bg-gray-900/50 p-4 rounded-xl border border-gray-800/80">
-              <div className="flex items-center justify-between text-xs">
-                <label className="font-semibold text-gray-200 flex items-center gap-2">
-                  <Wind className="w-4 h-4 text-purple-400" />
-                  Air Intake Compression Ratio
+            {/* Slider 5: Air Intake Ratio */}
+            <div className="space-y-1 bg-[#0B0F17] p-2.5 rounded border border-[#232D3F]">
+              <div className="flex items-center justify-between text-[11px]">
+                <label className="font-semibold text-slate-200 flex items-center gap-1">
+                  <Wind className="w-3 h-3 text-cyan-400" /> Air Intake Ratio
                 </label>
-                <span className="font-mono font-bold px-2 py-0.5 rounded text-xs bg-cyan-500/10 text-cyan-300">
+                <span className="font-mono font-bold px-1.5 py-0.5 rounded text-[10px] bg-[#1E293B] text-cyan-400 border border-[#232D3F]">
                   {sliders.intakePressure.toFixed(2)} : 1
                 </span>
               </div>
@@ -221,166 +173,132 @@ export default function EngineDiagnostics({ sliders, setSliders }) {
                 step="0.05"
                 value={sliders.intakePressure}
                 onChange={(e) => handleSliderChange('intakePressure', e.target.value)}
-                className="w-full accent-purple-400 cursor-pointer"
+                className="w-full accent-cyan-400 cursor-pointer"
               />
-              <div className="flex justify-between text-[10px] font-mono text-gray-400">
-                <span>0.50 (Stall)</span>
-                <span>Nominal: 1.85</span>
-                <span>2.50 (Peak)</span>
-              </div>
             </div>
           </div>
+        </div>
 
-          {/* Jet Engine Image & Sensor Waveform Overlay */}
-          <div className="glass-panel rounded-2xl p-4 border-cyan-500/20 relative overflow-hidden">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-xs font-mono text-cyan-400 font-bold uppercase tracking-wider">
-                JET TURBINE CROSS-SECTION TELEMETRY
+        {/* Column 2: Physical Component Degradation Display + Rule Comparison (5 Cols on Desktop) */}
+        <div className="lg:col-span-5 space-y-2.5">
+          {/* Physical Component Display */}
+          <div className="aero-panel rounded-lg p-3.5 border-[#232D3F] relative overflow-hidden">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-mono text-[#CBD5E1] font-bold uppercase tracking-wider flex items-center gap-1.5">
+                <Eye className="w-3.5 h-3.5 text-cyan-400" /> Physical Turbine Display
               </span>
-              <span className="text-[10px] font-mono text-gray-400">REAL-TIME SENSOR FEED</span>
+              <span className="text-[9px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-[#1E293B] text-cyan-400 border border-[#232D3F]">
+                STAGE 1: NOMINAL
+              </span>
             </div>
             
-            <div className="relative rounded-xl overflow-hidden border border-gray-800 aspect-video bg-black/60">
+            <div className="relative rounded-lg overflow-hidden img-blend-container aspect-[16/9]">
               <img
                 src={jetEngineImg}
-                alt="Turbine Engine HUD"
-                className="w-full h-full object-cover opacity-80"
+                alt="Turbine Engine View"
+                className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-transparent to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0B0F17]/85 via-transparent to-transparent"></div>
 
-              {/* Dynamic Overlay HUD Elements */}
-              <div className="absolute top-3 left-3 bg-black/70 backdrop-blur-md p-2 rounded-lg border border-cyan-500/30 font-mono text-[11px] space-y-1">
-                <p className="text-cyan-400 font-bold flex items-center gap-1.5">
-                  <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-                  SENSOR NODE #A-42 ACTIVE
+              <div class="absolute top-2 left-2 bg-[#0B0F17]/90 backdrop-blur-md p-2 rounded border border-[#232D3F] font-mono text-[10px] space-y-0.5">
+                <p className="text-cyan-400 font-bold flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                  TURBINE #A-42
                 </p>
-                <p className="text-gray-300">TIT: {sliders.temp}°C</p>
-                <p className="text-gray-300">VIB: {sliders.vibration}G</p>
+                <p className="text-slate-200 font-semibold">TIT: {sliders.temp}°C</p>
+                <p className="text-slate-200 font-semibold">VIB: {sliders.vibration.toFixed(1)}G</p>
               </div>
 
-              <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-md px-3 py-1.5 rounded-lg border border-cyan-500/30 font-mono text-[11px] text-right">
-                <span className="text-gray-400 block text-[9px]">ANOMALY INDEX</span>
-                <span className={`text-base font-black ${
-                  evaluation.aiAnomalyScore >= 75 ? 'text-red-400' : evaluation.aiAnomalyScore >= 40 ? 'text-amber-400' : 'text-emerald-400'
-                }`}>
+              <div className="absolute bottom-2 right-2 bg-[#0B0F17]/90 backdrop-blur-md px-2.5 py-1 rounded border border-[#232D3F] font-mono text-[10px] text-right">
+                <span className="text-slate-400 block text-[8px] font-bold">DEGRADATION</span>
+                <span className="text-sm font-bold text-cyan-400">
                   {evaluation.aiAnomalyScore}%
                 </span>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Right Pane: AI Diagnostic Gauge & Results (5 Cols) */}
-        <div className="lg:col-span-5 space-y-6">
-          {/* Anomaly Gauge & AI Output */}
-          <div className="glass-panel rounded-2xl p-6 border-cyan-500/30 space-y-6 relative overflow-hidden">
-            <div className="flex items-center justify-between pb-3 border-b border-gray-800">
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <Zap className="w-4 h-4 text-cyan-400" />
-                AI Health Diagnostic Output
-              </h3>
-              <span className="text-xs font-mono text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-400/20">
-                NEURAL CLASSIFIER
+          {/* Model Comparison Card (Rules vs AI) Directly Visible alongside image */}
+          <div className="aero-panel rounded-lg p-3.5 border-[#232D3F] space-y-2">
+            <div className="flex items-center justify-between border-b border-[#232D3F] pb-1.5">
+              <span className="text-xs font-bold text-white flex items-center gap-1.5">
+                <ArrowRightLeft className="w-3.5 h-3.5 text-cyan-400" /> Physics Rules vs AI Detection
               </span>
             </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] font-mono">
+              <div className="bg-[#0B0F17] p-2 rounded border border-[#232D3F]">
+                <span class="text-slate-400 text-[9px] block font-bold">TRADITIONAL RULES</span>
+                <p className="text-cyan-400 font-bold mt-0.5">Status: OPTIMAL</p>
+              </div>
+              <div className="bg-[#0B0F17] p-2 rounded border border-cyan-500/40">
+                <span className="text-cyan-400 text-[9px] block font-bold">AI NEURAL NETWORK</span>
+                <p className="text-cyan-400 font-bold mt-0.5">AI Status: {evaluation.aiStatus} ({evaluation.aiAnomalyScore}%)</p>
+              </div>
+            </div>
+          </div>
+        </div>
 
-            {/* Circular Gauge Representation */}
-            <div className="flex flex-col items-center justify-center p-4 bg-gray-900/80 rounded-xl border border-gray-800 relative">
-              <div className="relative w-44 h-44 flex items-center justify-center">
-                {/* SVG Gauge Circle */}
+        {/* Column 3: AI Anomaly Gauge & Executive Diagnostic Summary (3 Cols on Desktop) */}
+        <div className="lg:col-span-3 space-y-2.5">
+          <div className="aero-panel rounded-lg p-4 border-[#232D3F] space-y-3">
+            <div className="flex items-center justify-between pb-2 border-b border-[#232D3F]">
+              <h3 className="text-xs font-bold text-white uppercase tracking-wider flex items-center gap-1.5">
+                <Zap className="w-3.5 h-3.5 text-cyan-400" /> Anomaly Detector
+              </h3>
+              <span className="text-[9px] font-mono text-cyan-400 bg-[#1E293B] px-2 py-0.5 rounded border border-[#232D3F] font-semibold">NEURAL</span>
+            </div>
+
+            {/* Gauge */}
+            <div className="flex flex-col items-center justify-center p-3 bg-[#0B0F17] rounded border border-[#232D3F]">
+              <div className="relative w-32 h-32 flex items-center justify-center">
                 <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="40" className="stroke-[#1E293B]" strokeWidth="7" fill="transparent"/>
                   <circle
                     cx="50"
                     cy="50"
                     r="40"
-                    className="stroke-gray-800"
-                    strokeWidth="8"
-                    fill="transparent"
-                  />
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="40"
-                    className={`transition-all duration-500 ease-out ${
-                      evaluation.aiAnomalyScore >= 75
-                        ? 'stroke-red-500 shadow-red-glow'
-                        : evaluation.aiAnomalyScore >= 40
-                        ? 'stroke-amber-500 shadow-gold-glow'
-                        : 'stroke-emerald-400 shadow-green-glow'
-                    }`}
-                    strokeWidth="8"
+                    className="stroke-cyan-400 transition-all duration-500"
+                    strokeWidth="7"
                     strokeDasharray={251.2}
                     strokeDashoffset={251.2 - (251.2 * evaluation.aiAnomalyScore) / 100}
                     strokeLinecap="round"
                     fill="transparent"
                   />
                 </svg>
-                {/* Gauge Inner Metric */}
                 <div className="absolute text-center space-y-0.5">
-                  <span className="text-3xl font-black text-white font-mono block tracking-tight">
+                  <span className="text-2xl font-bold text-white font-mono block">
                     {evaluation.aiAnomalyScore}%
                   </span>
-                  <span className="text-[10px] text-gray-400 uppercase font-mono tracking-wider block">
-                    ANOMALY SCORE
-                  </span>
+                  <span className="text-[9px] text-slate-400 uppercase font-mono tracking-wider block font-bold">ANOMALY</span>
                 </div>
               </div>
 
               {/* Status Badge */}
-              <div className={`mt-4 px-4 py-1.5 rounded-full text-xs font-extrabold uppercase tracking-wider border flex items-center gap-2 ${
-                evaluation.aiStatus === 'CRITICAL'
-                  ? 'bg-red-500/20 text-red-400 border-red-500/50 shadow-red-glow'
-                  : evaluation.aiStatus === 'WARNING'
-                  ? 'bg-amber-500/20 text-amber-400 border-amber-500/50 shadow-gold-glow'
-                  : 'bg-emerald-500/20 text-emerald-400 border-emerald-500/50 shadow-green-glow'
-              }`}>
-                {evaluation.aiStatus === 'CRITICAL' && <ShieldAlert className="w-4 h-4 animate-bounce" />}
-                {evaluation.aiStatus === 'WARNING' && <AlertCircle className="w-4 h-4" />}
-                {evaluation.aiStatus === 'OPTIMAL' && <CheckCircle2 className="w-4 h-4" />}
+              <div className="mt-2.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border flex items-center justify-center text-center bg-[#1E293B] text-cyan-400 border-[#232D3F]">
                 {evaluation.aiHeadline}
               </div>
             </div>
 
-            {/* Diagnostic Details */}
-            <div className="space-y-4 text-xs">
-              <div className="bg-gray-900/90 p-4 rounded-xl border border-gray-800 space-y-2">
-                <span className="text-gray-400 font-mono uppercase text-[10px] block font-semibold">
-                  AI DEEP DIAGNOSTIC SUMMARY
+            {/* RUL & Summary */}
+            <div className="space-y-2 text-[11px] font-mono">
+              <div className="bg-[#0B0F17] p-2.5 rounded border border-[#232D3F]">
+                <span className="text-[#CBD5E1] uppercase text-[9px] block font-bold">PREDICTED RUL</span>
+                <span className="text-base font-bold text-cyan-400">
+                  {evaluation.remainingUsefulLifeHours.toLocaleString()} Hours
                 </span>
-                <p className="text-gray-200 leading-relaxed font-sans">
-                  {evaluation.aiDiagnostic}
-                </p>
               </div>
 
-              {/* Remaining Useful Life Box */}
-              <div className="bg-gray-900/90 p-4 rounded-xl border border-cyan-500/20 flex items-center justify-between">
-                <div>
-                  <span className="text-gray-400 font-mono uppercase text-[10px] block font-semibold">
-                    PREDICTED REMAINING USEFUL LIFE (RUL)
-                  </span>
-                  <span className="text-lg font-extrabold text-cyan-300 font-mono">
-                    {evaluation.remainingUsefulLifeHours.toLocaleString()} Hours
-                  </span>
-                </div>
-                <div className="text-right font-mono text-[10px] text-gray-400">
-                  <span>MAINTENANCE WINDOW</span>
-                  <span className="block text-emerald-400 font-bold">
-                    {evaluation.remainingUsefulLifeHours > 1000 ? 'SCHEDULED' : 'URGENT ATTENTION'}
-                  </span>
-                </div>
+              <div className="bg-[#0B0F17] p-2.5 rounded border border-[#232D3F] space-y-1">
+                <span className="text-[#CBD5E1] uppercase text-[9px] block font-bold">DIAGNOSTIC SUMMARY</span>
+                <p className="text-slate-300 font-sans text-[11px] leading-snug">
+                  {evaluation.aiDiagnostic}
+                </p>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Side-by-Side Model Comparison Toggle View */}
-      <ModelComparisonToggle
-        physicsResult={evaluation}
-        aiResult={evaluation}
-        showComparisonToggle={showComparison}
-        setShowComparisonToggle={setShowComparison}
-      />
+      </div>
     </div>
   );
 }

@@ -4,97 +4,89 @@
 
 @layer base {
   body {
-    background-color: #0b0f19;
-    background-image: 
-      radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.08) 0%, transparent 60%),
-      linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-    background-size: 100% 100%, 40px 40px, 40px 40px;
+    background-color: #FBFBF9;
+    color: #4B5563;
+    font-family: 'Plus Jakarta Sans', sans-serif;
     min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .mono-data {
+    font-family: 'JetBrains Mono', monospace;
   }
 }
 
-/* Glassmorphism Card Style */
-.glass-panel {
-  background: rgba(17, 24, 39, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 240, 255, 0.15);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+/* Corporate Card Containers */
+.corp-card, .pro-card, .tactical-panel, .aero-card, .glass-panel {
+  background-color: #FFFFFF;
+  border: 1px solid #E5E7EB;
+  border-radius: 1rem; /* rounded-2xl */
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
 }
 
-.glass-panel-glow {
-  background: rgba(17, 24, 39, 0.85);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(0, 240, 255, 0.4);
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.2);
+.corp-card-active, .pro-card-active, .tactical-panel-active, .aero-card-active {
+  background-color: #FFFFFF;
+  border: 1.5px solid #2563EB;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.1);
 }
 
-/* Custom Styled Range Sliders */
+.corp-inset, .pro-inset, .tactical-inset {
+  background-color: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.75rem;
+}
+
+/* Corporate Sliders */
 input[type=range] {
   -webkit-appearance: none;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  height: 8px;
+  background: #E5E7EB;
+  border-radius: 9999px;
+  height: 6px;
   outline: none;
 }
 
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 22px;
-  height: 22px;
+  width: 18px;
+  height: 18px;
   border-radius: 50%;
-  background: #00f0ff;
+  background: #FFFFFF;
   cursor: pointer;
-  box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
-  border: 2px solid #0b0f19;
-  transition: transform 0.15s ease, background-color 0.15s ease;
+  border: 2px solid #2563EB;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: all 0.15s ease;
 }
 
 input[type=range]::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
-  background: #ffffff;
+  transform: scale(1.1);
+  background: #2563EB;
 }
 
-input[type=range]::-moz-range-thumb {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: #00f0ff;
-  cursor: pointer;
-  box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
-  border: 2px solid #0b0f19;
-  transition: transform 0.15s ease;
+/* Active Nav Tab Pill */
+.nav-tab-active {
+  background-color: #2563EB !important;
+  color: #FFFFFF !important;
+  font-weight: 600 !important;
 }
 
-/* Print Styles for PDF Summary Sheet */
+/* Print Clean Format */
 @media print {
   body {
     background: #ffffff !important;
     color: #000000 !important;
   }
-
   .no-print {
     display: none !important;
   }
-
-  .print-only {
+  .print-area {
     display: block !important;
   }
-
-  .glass-panel {
+  .corp-card, .pro-card {
     background: #ffffff !important;
-    border: 1px solid #cccccc !important;
+    border: 1px solid #e5e7eb !important;
     box-shadow: none !important;
-    color: #000000 !important;
-  }
-
-  .text-gray-300, .text-gray-400, .text-cyan-400 {
-    color: #333333 !important;
-  }
-
-  h1, h2, h3, h4 {
     color: #000000 !important;
   }
 }
