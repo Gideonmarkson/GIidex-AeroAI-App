@@ -103,6 +103,15 @@
       font-weight: 600 !important;
     }
 
+    /* Slide-Over Drawer Transitions */
+    .drawer-backdrop {
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .drawer-panel {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
     /* Print Clean Format */
     @media print {
       body {
@@ -129,11 +138,20 @@
   <div id="app" class="min-h-screen flex flex-col justify-between">
     
     <!-- Corporate Header Navigation Bar -->
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-200 px-4 lg:px-8 py-3.5 no-print">
+    <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-gray-200 px-4 lg:px-8 py-3.5 no-print">
       <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
         
-        <!-- Brand Identity -->
+        <!-- Left Section: Hamburger Button (Mobile) & Brand Identity -->
         <div class="flex items-center gap-3 shrink-0">
+          
+          <!-- Mobile Hamburger Toggle Button (Left Top Header) -->
+          <button onclick="openMobileDrawer()" class="lg:hidden p-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-800 transition focus:outline-none" title="Open Navigation Menu">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+
+          <!-- Logo & Brand Title -->
           <div class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-lg shadow-sm">
             G
           </div>
@@ -142,13 +160,13 @@
               <h1 class="text-base font-bold tracking-tight text-gray-900 whitespace-nowrap">
                 Gidex AeroAI Explorer
               </h1>
-              <span class="text-[11px] mono-data px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 font-semibold border border-blue-100">
+              <span class="hidden sm:inline-block text-[11px] mono-data px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 font-semibold border border-blue-100">
                 v1.6 Enterprise
               </span>
             </div>
             <p class="text-xs text-gray-500 flex items-center gap-2 mt-0.5">
-              <span>Next-Gen Avionics</span> • <span id="clock" class="text-gray-900 font-medium mono-data">--:--:-- UTC</span> • 
-              <span class="text-emerald-600 font-semibold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Live Telemetry</span>
+              <span class="hidden sm:inline">Next-Gen Avionics</span> <span class="hidden sm:inline">•</span> <span id="clock" class="text-gray-900 font-medium mono-data">--:--:-- UTC</span> • 
+              <span class="text-emerald-600 font-semibold flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Live</span>
             </p>
           </div>
         </div>
@@ -176,44 +194,94 @@
         </nav>
 
         <!-- Right Header Action Controls -->
-        <div class="flex items-center gap-3 shrink-0 text-xs font-semibold">
-          <button onclick="openHowItWorksModal()" class="px-4 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-800 transition">
+        <div class="flex items-center gap-2.5 shrink-0 text-xs font-semibold">
+          <button onclick="openHowItWorksModal()" class="px-3.5 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-800 transition">
             User Guide
           </button>
 
           <button onclick="resetAllState()" class="hidden sm:inline-block px-4 py-2 rounded-full bg-white hover:bg-gray-50 text-gray-700 border border-gray-300 shadow-sm transition">
             Reset
           </button>
-
-          <!-- Mobile Hamburger Toggle Button -->
-          <button onclick="toggleMobileMenu()" id="hamburger-btn" class="lg:hidden px-3 py-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-800 transition" title="Toggle Navigation Menu">
-            Menu
-          </button>
         </div>
       </div>
-
-      <!-- Mobile Collapsible Menu Drawer -->
-      <div id="mobile-menu" class="hidden lg:hidden pt-3 border-t border-gray-200 mt-3 space-y-1.5 text-xs font-semibold">
-        <button onclick="switchTab('overview'); closeMobileMenu();" id="mobile-tab-overview" class="w-full text-left px-4 py-2.5 rounded-xl bg-blue-600 text-white">
-          01 Overview
-        </button>
-        <button onclick="switchTab('diagnostics'); closeMobileMenu();" id="mobile-tab-diagnostics" class="w-full text-left px-4 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100">
-          02 Diagnostics
-        </button>
-        <button onclick="switchTab('digital-twin'); closeMobileMenu();" id="mobile-tab-digital-twin" class="w-full text-left px-4 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100">
-          03 Digital Twin
-        </button>
-        <button onclick="switchTab('trajectory'); closeMobileMenu();" id="mobile-tab-trajectory" class="w-full text-left px-4 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100">
-          04 Trajectory
-        </button>
-        <button onclick="switchTab('quiz'); closeMobileMenu();" id="mobile-tab-quiz" class="w-full text-left px-4 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100">
-          05 Assessment
-        </button>
-        <button onclick="switchTab('cheat-sheet'); closeMobileMenu();" id="mobile-tab-cheat-sheet" class="w-full text-left px-4 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100">
-          06 PDF Report
-        </button>
-      </div>
     </header>
+
+    <!-- iOS-STYLE SLIDE-OVER MOBILE DRAWER NAVIGATION MENU -->
+    <div id="mobile-drawer-container" class="hidden fixed inset-0 z-50 overflow-hidden no-print">
+      
+      <!-- Semi-Transparent Dark Backdrop -->
+      <div id="drawer-backdrop" onclick="closeMobileDrawer()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+
+      <!-- Slide-Over Drawer Panel (Left-side 75% to 80% Width) -->
+      <aside id="drawer-panel" class="fixed inset-y-0 left-0 w-[78%] max-w-xs bg-white shadow-2xl flex flex-col justify-between transform -translate-x-full transition-transform duration-300 ease-out border-r border-gray-200">
+        
+        <!-- Drawer Top Header -->
+        <div class="p-5 border-b border-gray-200 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-base shadow-sm">
+              G
+            </div>
+            <div>
+              <h2 class="text-sm font-bold text-gray-900 leading-tight">Gidex AeroAI</h2>
+              <span class="text-[10px] mono-data text-blue-600 font-semibold block">Navigation Menu</span>
+            </div>
+          </div>
+
+          <!-- 'X' Close Button -->
+          <button onclick="closeMobileDrawer()" class="p-2 rounded-full text-gray-400 hover:text-gray-900 hover:bg-gray-100 transition" title="Close Menu">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Drawer Vertical Menu Items List -->
+        <div class="p-4 space-y-1.5 flex-1 overflow-y-auto font-medium text-sm">
+          <span class="px-3 text-[10px] uppercase font-bold text-gray-400 tracking-wider mono-data block mb-2">Platform Modules</span>
+
+          <button onclick="switchTab('overview'); closeMobileDrawer();" id="mobile-tab-overview" class="w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition text-left text-gray-700 hover:bg-gray-100">
+            <span class="mono-data text-xs font-bold text-gray-400">01</span>
+            <span class="font-semibold">Overview & History</span>
+          </button>
+
+          <button onclick="switchTab('diagnostics'); closeMobileDrawer();" id="mobile-tab-diagnostics" class="w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition text-left text-gray-700 hover:bg-gray-100">
+            <span class="mono-data text-xs font-bold text-gray-400">02</span>
+            <span class="font-semibold">Engine Diagnostics</span>
+          </button>
+
+          <button onclick="switchTab('digital-twin'); closeMobileDrawer();" id="mobile-tab-digital-twin" class="w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition text-left text-gray-700 hover:bg-gray-100">
+            <span class="mono-data text-xs font-bold text-gray-400">03</span>
+            <span class="font-semibold">Airframe Twin</span>
+          </button>
+
+          <button onclick="switchTab('trajectory'); closeMobileDrawer();" id="mobile-tab-trajectory" class="w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition text-left text-gray-700 hover:bg-gray-100">
+            <span class="mono-data text-xs font-bold text-gray-400">04</span>
+            <span class="font-semibold">Trajectory Optimization</span>
+          </button>
+
+          <button onclick="switchTab('quiz'); closeMobileDrawer();" id="mobile-tab-quiz" class="w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition text-left text-gray-700 hover:bg-gray-100">
+            <span class="mono-data text-xs font-bold text-gray-400">05</span>
+            <span class="font-semibold">Knowledge Assessment</span>
+          </button>
+
+          <button onclick="switchTab('cheat-sheet'); closeMobileDrawer();" id="mobile-tab-cheat-sheet" class="w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition text-left text-gray-700 hover:bg-gray-100">
+            <span class="mono-data text-xs font-bold text-gray-400">06</span>
+            <span class="font-semibold">Executive PDF Report</span>
+          </button>
+        </div>
+
+        <!-- Drawer Bottom Action Footer -->
+        <div class="p-4 border-t border-gray-200 bg-gray-50 space-y-2">
+          <button onclick="resetAllState(); closeMobileDrawer();" class="w-full py-2.5 rounded-xl bg-white border border-gray-300 text-gray-800 text-xs font-semibold shadow-sm hover:bg-gray-100 transition">
+            Reset Telemetry Baseline
+          </button>
+          <div class="text-[10px] text-gray-400 text-center mono-data pt-1">
+            Gidex AeroAI • Enterprise Avionics
+          </div>
+        </div>
+
+      </aside>
+    </div>
 
     <!-- Main Content Container -->
     <main class="w-full flex-1 pb-16">
@@ -877,7 +945,7 @@
 
           <div class="bg-blue-50 p-4 rounded-xl border border-blue-100 text-xs text-blue-900">
             <span class="font-bold text-blue-700 block mb-0.5">Quick Navigation Tip:</span>
-            <span>Use the top horizontal navigation tabs or mobile menu to switch between modules at any time. Click "Reset" on top right to restore default parameters.</span>
+            <span>Use the top horizontal navigation tabs or mobile drawer menu to switch between modules at any time. Click "Reset" on top right to restore default parameters.</span>
           </div>
         </div>
 
@@ -903,7 +971,7 @@
 
   </div>
 
-  <!-- Application Logic & 200 Question Generator -->
+  <!-- Application Logic & Drawer Controls -->
   <script>
     // UTC Clock
     function updateClock() {
@@ -913,7 +981,7 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // MODAL & HAMBURGER CONTROLLERS
+    // MODAL & DRAWER CONTROLLERS
     function openHowItWorksModal() {
       document.getElementById('how-it-works-modal').classList.remove('hidden');
     }
@@ -921,19 +989,29 @@
       document.getElementById('how-it-works-modal').classList.add('hidden');
     }
 
-    let isMobileMenuOpen = false;
-    function toggleMobileMenu() {
-      isMobileMenuOpen = !isMobileMenuOpen;
-      const menu = document.getElementById('mobile-menu');
-      if (isMobileMenuOpen) {
-        menu.classList.remove('hidden');
-      } else {
-        menu.classList.add('hidden');
-      }
+    // iOS-Style Mobile Slide-Over Drawer Controllers
+    function openMobileDrawer() {
+      const container = document.getElementById('mobile-drawer-container');
+      const backdrop = document.getElementById('drawer-backdrop');
+      const panel = document.getElementById('drawer-panel');
+
+      container.classList.remove('hidden');
+      setTimeout(() => {
+        backdrop.classList.remove('opacity-0');
+        panel.classList.remove('-translate-x-full');
+      }, 10);
     }
-    function closeMobileMenu() {
-      isMobileMenuOpen = false;
-      document.getElementById('mobile-menu').classList.add('hidden');
+
+    function closeMobileDrawer() {
+      const container = document.getElementById('mobile-drawer-container');
+      const backdrop = document.getElementById('drawer-backdrop');
+      const panel = document.getElementById('drawer-panel');
+
+      backdrop.classList.add('opacity-0');
+      panel.classList.add('-translate-x-full');
+      setTimeout(() => {
+        container.classList.add('hidden');
+      }, 300);
     }
 
     // ASSET LOADING FALLBACK CARD RENDERER
@@ -949,7 +1027,7 @@
       `;
     }
 
-    // Tab Switching Logic
+    // Tab Switching Logic with Mobile Drawer Active State Support
     let currentTab = 'overview';
     function switchTab(tabId) {
       currentTab = tabId;
@@ -958,14 +1036,15 @@
         const el = document.getElementById('view-' + v);
         const btn = document.getElementById('tab-' + v);
         const mBtn = document.getElementById('mobile-tab-' + v);
+        
         if (v === tabId) {
           el.classList.remove('hidden');
           if (btn) btn.className = 'tab-btn nav-tab-active px-4 py-2 rounded-full transition-all whitespace-nowrap';
-          if (mBtn) mBtn.className = 'w-full text-left px-4 py-2.5 rounded-xl bg-blue-600 text-white';
+          if (mBtn) mBtn.className = 'w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition text-left bg-blue-50 text-blue-600 font-semibold';
         } else {
           el.classList.add('hidden');
           if (btn) btn.className = 'tab-btn px-4 py-2 rounded-full hover:text-gray-900 hover:bg-white/60 transition-all whitespace-nowrap';
-          if (mBtn) mBtn.className = 'w-full text-left px-4 py-2.5 rounded-xl text-gray-700 hover:bg-gray-100';
+          if (mBtn) mBtn.className = 'w-full flex items-center gap-3 px-3.5 py-3 rounded-xl transition text-left text-gray-700 hover:bg-gray-100';
         }
       });
 
