@@ -212,7 +212,7 @@
       <!-- Semi-Transparent Dark Backdrop -->
       <div id="drawer-backdrop" onclick="closeMobileDrawer()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
 
-      <!-- Slide-Over Drawer Panel (Left-side 75% to 80% Width) -->
+      <!-- Slide-Over Drawer Panel (Left-side 78% Width) -->
       <aside id="drawer-panel" class="fixed inset-y-0 left-0 w-[78%] max-w-xs bg-white shadow-2xl flex flex-col justify-between transform -translate-x-full transition-transform duration-300 ease-out border-r border-gray-200">
         
         <!-- Drawer Top Header -->
@@ -405,44 +405,74 @@
         </div>
       </section>
 
-      <!-- VIEW 1: PREDICTIVE ENGINE DIAGNOSTICS (HUMAN-CENTERED SIMULATOR) -->
-      <section id="view-diagnostics" class="max-w-7xl mx-auto px-4 lg:px-8 space-y-8 hidden py-6">
+      <!-- VIEW 1: PREDICTIVE ENGINE DIAGNOSTICS (PINNED/STICKY MOBILE COCKPIT LAYOUT) -->
+      <section id="view-diagnostics" class="max-w-7xl mx-auto px-4 lg:px-8 space-y-6 hidden py-4 md:py-6">
         
         <!-- Control Header & Presets -->
-        <div class="corp-card p-6 border-gray-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="corp-card p-5 border-gray-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <span class="px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold border border-blue-100">
               Module 01 Engine Telemetry
             </span>
-            <h2 class="text-2xl font-bold text-gray-900 tracking-tight mt-2">Predictive Jet Engine Diagnostics</h2>
-            <p class="text-xs text-gray-600 mt-1">Adjust telemetry sliders below to simulate turbine stress and evaluate AI vs traditional rule thresholds.</p>
+            <h2 class="text-xl md:text-2xl font-bold text-gray-900 tracking-tight mt-1.5">Predictive Jet Engine Diagnostics</h2>
+            <p class="text-xs text-gray-600 mt-0.5">Adjust sliders below to observe live turbine telemetry indicators in real time.</p>
           </div>
 
-          <!-- Presets -->
-          <div class="flex items-center gap-2 flex-wrap text-xs font-semibold">
-            <span class="text-xs text-gray-500 font-medium mr-1">Presets:</span>
-            <button onclick="applyPreset('optimal')" class="px-3.5 py-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-800 transition">Optimal</button>
-            <button onclick="applyPreset('overheating')" class="px-3.5 py-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-800 transition">Overheating</button>
-            <button onclick="applyPreset('vibration')" class="px-3.5 py-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-800 transition">Imbalance</button>
-            <button onclick="applyPreset('multivariate')" class="px-3.5 py-1.5 rounded-full bg-blue-600 text-white transition">Multivariate</button>
-            <button onclick="applyPreset('failure')" class="px-3.5 py-1.5 rounded-full bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 transition">Failure</button>
+          <!-- Presets Bar -->
+          <div class="flex items-center gap-2 flex-wrap text-xs font-semibold w-full md:w-auto">
+            <span class="text-xs text-gray-500 font-medium mr-1 hidden sm:inline">Presets:</span>
+            <button onclick="applyPreset('optimal')" class="px-3 py-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-800 transition">Optimal</button>
+            <button onclick="applyPreset('overheating')" class="px-3 py-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-800 transition">Overheating</button>
+            <button onclick="applyPreset('vibration')" class="px-3 py-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-800 transition">Imbalance</button>
+            <button onclick="applyPreset('multivariate')" class="px-3 py-1.5 rounded-full bg-blue-600 text-white transition">Multivariate</button>
+            <button onclick="applyPreset('failure')" class="px-3 py-1.5 rounded-full bg-red-50 text-red-700 hover:bg-red-100 border border-red-200 transition">Failure</button>
           </div>
         </div>
 
-        <!-- Dashboard Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        <!-- STICKY PINNED MOBILE ENGINE DISPLAY CARD (On mobile < md: Sticky underneath sticky header) -->
+        <div id="mobile-sticky-engine-display" class="block md:hidden sticky top-[64px] z-30 corp-card p-3 shadow-md bg-white/95 backdrop-blur-md border-blue-200 space-y-2">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
+              <span class="text-xs font-bold text-gray-900">Turbine #A-42 Live Stream</span>
+            </div>
+            <span id="hud-stage-tag-mobile" class="text-[10px] mono-data font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-100">
+              Stage 1: Nominal
+            </span>
+          </div>
+
+          <!-- Compact Mobile Engine Graphic View (Fixed h-36 for Zero-Scroll Fit) -->
+          <div class="relative rounded-xl overflow-hidden h-36 bg-gray-900 border border-gray-200 shadow-inner">
+            <img id="engine-live-img-mobile" src="./engine_nominal.jpg" onerror="renderImageFallback(this, 'Jet Turbine Hardware Display');" alt="Turbine Mobile Live" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-gray-950/80 via-transparent to-transparent"></div>
+
+            <!-- Overlay Readouts -->
+            <div class="absolute top-2 left-2 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-lg border border-gray-200 text-[11px] font-semibold text-gray-900 space-y-0.5 shadow-sm">
+              <p id="hud-temp-mobile" class="mono-data text-blue-600 font-bold">TIT: 820°C</p>
+              <p id="hud-vibration-mobile" class="mono-data">VIB: 1.1G</p>
+            </div>
+
+            <div class="absolute bottom-2 right-2 bg-white/90 backdrop-blur-md px-3 py-1 rounded-lg border border-gray-200 text-xs text-right shadow-sm">
+              <span class="text-gray-500 block text-[9px] uppercase font-bold">Anomaly</span>
+              <span id="hud-anomaly-pct-mobile" class="text-xs font-extrabold text-blue-600 mono-data">12%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Multi-Column Cockpit Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start">
           
-          <!-- Column 1: Sliders (4 cols) -->
-          <div class="lg:col-span-4 space-y-4">
-            <div class="corp-card p-6 space-y-4">
+          <!-- Column 1: Telemetry Sliders (4 cols on Desktop) -->
+          <div class="md:col-span-4 space-y-4">
+            <div class="corp-card p-5 md:p-6 space-y-4">
               <div class="flex items-center justify-between pb-3 border-b border-gray-200">
                 <h3 class="text-xs font-bold text-gray-900 uppercase tracking-wider">Telemetry Controls</h3>
-                <span class="text-xs text-blue-600 mono-data font-semibold">7 Feeds Active</span>
+                <span class="text-xs text-blue-600 mono-data font-semibold">7 Channels</span>
               </div>
 
-              <!-- Sliders -->
-              <div class="space-y-3 text-xs">
-                <div class="space-y-1.5 bg-gray-50 p-3 rounded-xl border border-gray-200">
+              <!-- Sliders (2 Columns on Mobile for Compact Vertical Height) -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-2.5 text-xs">
+                <div class="space-y-1 bg-gray-50 p-2.5 rounded-xl border border-gray-200">
                   <div class="flex justify-between font-semibold text-gray-900">
                     <span>TIT Temperature</span>
                     <span id="val-temp" class="mono-data text-blue-600">820°C</span>
@@ -450,7 +480,7 @@
                   <input type="range" id="slider-temp" min="400" max="1400" step="5" value="820" oninput="updateDiagnostics()">
                 </div>
 
-                <div class="space-y-1.5 bg-gray-50 p-3 rounded-xl border border-gray-200">
+                <div class="space-y-1 bg-gray-50 p-2.5 rounded-xl border border-gray-200">
                   <div class="flex justify-between font-semibold text-gray-900">
                     <span>Rotor Vibration</span>
                     <span id="val-vibration" class="mono-data text-blue-600">1.1 G</span>
@@ -458,7 +488,7 @@
                   <input type="range" id="slider-vibration" min="0.1" max="10.0" step="0.1" value="1.1" oninput="updateDiagnostics()">
                 </div>
 
-                <div class="space-y-1.5 bg-gray-50 p-3 rounded-xl border border-gray-200">
+                <div class="space-y-1 bg-gray-50 p-2.5 rounded-xl border border-gray-200">
                   <div class="flex justify-between font-semibold text-gray-900">
                     <span>Compressor Wear</span>
                     <span id="val-erosion" class="mono-data text-blue-600">5%</span>
@@ -466,7 +496,7 @@
                   <input type="range" id="slider-erosion" min="0" max="100" step="1" value="5" oninput="updateDiagnostics()">
                 </div>
 
-                <div class="space-y-1.5 bg-gray-50 p-3 rounded-xl border border-gray-200">
+                <div class="space-y-1 bg-gray-50 p-2.5 rounded-xl border border-gray-200">
                   <div class="flex justify-between font-semibold text-gray-900">
                     <span>Fuel Pressure</span>
                     <span id="val-pressure" class="mono-data text-blue-600">680 PSI</span>
@@ -474,7 +504,7 @@
                   <input type="range" id="slider-pressure" min="200" max="1200" step="10" value="680" oninput="updateDiagnostics()">
                 </div>
 
-                <div class="space-y-1.5 bg-gray-50 p-3 rounded-xl border border-gray-200">
+                <div class="space-y-1 bg-gray-50 p-2.5 rounded-xl border border-gray-200">
                   <div class="flex justify-between font-semibold text-gray-900">
                     <span>Lube Oil Debris</span>
                     <span id="val-oil" class="mono-data text-blue-600">8%</span>
@@ -482,7 +512,7 @@
                   <input type="range" id="slider-oil" min="0" max="100" step="1" value="8" oninput="updateDiagnostics()">
                 </div>
 
-                <div class="space-y-1.5 bg-gray-50 p-3 rounded-xl border border-gray-200">
+                <div class="space-y-1 bg-gray-50 p-2.5 rounded-xl border border-gray-200">
                   <div class="flex justify-between font-semibold text-gray-900">
                     <span>Exhaust Gas Temp</span>
                     <span id="val-egt" class="mono-data text-blue-600">540°C</span>
@@ -490,7 +520,7 @@
                   <input type="range" id="slider-egt" min="300" max="1200" step="10" value="540" oninput="updateDiagnostics()">
                 </div>
 
-                <div class="space-y-1.5 bg-gray-50 p-3 rounded-xl border border-gray-200">
+                <div class="space-y-1 bg-gray-50 p-2.5 rounded-xl border border-gray-200 sm:col-span-2 md:col-span-1">
                   <div class="flex justify-between font-semibold text-gray-900">
                     <span>Air Intake Ratio</span>
                     <span id="val-intake" class="mono-data text-blue-600">1.85 : 1</span>
@@ -501,9 +531,11 @@
             </div>
           </div>
 
-          <!-- Column 2: CAD Image & Rule Comparison (5 cols) -->
-          <div class="lg:col-span-5 space-y-4">
-            <div id="engine-img-card" class="corp-card p-6 space-y-4">
+          <!-- Column 2: Desktop Engine Display & Physics Comparison (5 cols on Desktop) -->
+          <div class="md:col-span-5 space-y-4">
+            
+            <!-- Standard Desktop Engine Display (Hidden on Mobile) -->
+            <div id="engine-img-card" class="hidden md:block corp-card p-6 space-y-4">
               <div class="flex items-center justify-between pb-3 border-b border-gray-200">
                 <span class="text-xs font-semibold text-gray-900">Hardware Telemetry Display</span>
                 <span id="hud-stage-tag" class="text-xs mono-data font-semibold px-3 py-1 rounded-full bg-blue-50 text-blue-700 border border-blue-100">
@@ -511,7 +543,6 @@
                 </span>
               </div>
 
-              <!-- Hardware Image View -->
               <div class="relative rounded-xl overflow-hidden aspect-[16/10] bg-gray-100 border border-gray-200 shadow-sm" id="engine-img-wrapper">
                 <img id="engine-live-img" src="./engine_nominal.jpg" onerror="renderImageFallback(this, 'Jet Turbine Hardware CAD Display');" alt="Turbine View" class="w-full h-full object-cover">
                 <div class="absolute inset-0 bg-gradient-to-t from-gray-950/80 via-transparent to-transparent"></div>
@@ -531,7 +562,7 @@
             </div>
 
             <!-- Model Comparison Card -->
-            <div class="corp-card p-6 space-y-4">
+            <div class="corp-card p-5 md:p-6 space-y-4">
               <h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider border-b border-gray-200 pb-3">Physics Rules vs AI Detection</h4>
               <div class="grid grid-cols-2 gap-3 text-xs">
                 <div class="bg-gray-50 p-3 rounded-xl border border-gray-200 space-y-1">
@@ -549,9 +580,9 @@
             </div>
           </div>
 
-          <!-- Column 3: Anomaly Gauge & Summary (3 cols) -->
-          <div class="lg:col-span-3 space-y-4">
-            <div class="corp-card p-6 space-y-4">
+          <!-- Column 3: Anomaly Gauge & Summary (3 cols on Desktop) -->
+          <div class="md:col-span-3 space-y-4">
+            <div class="corp-card p-5 md:p-6 space-y-4">
               <div class="flex items-center justify-between pb-3 border-b border-gray-200">
                 <h3 class="text-xs font-bold text-gray-900 uppercase tracking-wider">AI Anomaly Gauge</h3>
                 <span class="text-xs mono-data text-blue-700 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-100">Neural</span>
@@ -1086,7 +1117,7 @@
     let latestAiStatus = 'OPTIMAL';
     let latestAiText = '';
 
-    // Engine Diagnostics & Dynamic Calculations
+    // Engine Diagnostics & Dynamic Calculations with Dual Live Mobile & Desktop Sync
     function updateDiagnostics() {
       const temp = parseFloat(document.getElementById('slider-temp').value);
       const vibration = parseFloat(document.getElementById('slider-vibration').value);
@@ -1104,9 +1135,17 @@
       document.getElementById('val-egt').innerText = egt + '°C';
       document.getElementById('val-intake').innerText = intake.toFixed(2) + ' : 1';
 
+      // Update Desktop Overlays
       document.getElementById('hud-temp').innerText = 'TIT: ' + temp + '°C';
       document.getElementById('hud-vibration').innerText = 'VIB: ' + vibration.toFixed(1) + 'G';
       document.getElementById('hud-erosion').innerText = 'WEAR: ' + erosion + '%';
+
+      // Synchronize Mobile Pinned Overlays Instantly
+      const mTemp = document.getElementById('hud-temp-mobile');
+      const mVib = document.getElementById('hud-vibration-mobile');
+      const mPct = document.getElementById('hud-anomaly-pct-mobile');
+      if (mTemp) mTemp.innerText = 'TIT: ' + temp + '°C';
+      if (mVib) mVib.innerText = 'VIB: ' + vibration.toFixed(1) + 'G';
 
       let physicsFailed = temp > 1100 || vibration > 7.0 || erosion > 60 || pressure < 300 || oil > 60 || egt > 950;
       document.getElementById('physics-status-text').innerText = physicsFailed
@@ -1125,6 +1164,8 @@
 
       document.getElementById('gauge-score').innerText = anomalyScore + '%';
       document.getElementById('hud-anomaly-pct').innerText = anomalyScore + '%';
+      if (mPct) mPct.innerText = anomalyScore + '%';
+
       const circle = document.getElementById('gauge-circle');
       circle.style.strokeDashoffset = 251.2 - (251.2 * anomalyScore) / 100;
 
@@ -1135,51 +1176,56 @@
       const callout = document.getElementById('comparison-callout');
 
       const liveImg = document.getElementById('engine-live-img');
+      const liveImgMobile = document.getElementById('engine-live-img-mobile');
       const imgCard = document.getElementById('engine-img-card');
       const hudTag = document.getElementById('hud-stage-tag');
+      const hudTagMobile = document.getElementById('hud-stage-tag-mobile');
 
       const rulHours = Math.max(1, Math.round(3000 * Math.exp(-anomalyScore / 22)));
       rulText.innerText = rulHours.toLocaleString() + ' Hours';
 
-      if (liveImg) {
-        if (anomalyScore >= 75) {
-          latestAiStatus = 'CRITICAL ALERT';
-          latestAiText = 'Neural Alert: High risk of turbine blade creep & bearing seizure. Immediate shutdown advised.';
-          liveImg.src = './engine_critical.jpg';
-          liveImg.onerror = function() { renderImageFallback(this, 'Jet Turbine Hardware CAD Display'); };
-          imgCard.className = 'corp-card p-6 border-red-300 space-y-4';
-          hudTag.innerText = 'Stage 3: Catastrophic Wear';
-          badge.innerText = 'Critical System Failure';
-          badge.className = 'mt-4 px-4 py-1.5 rounded-full text-xs font-semibold bg-red-50 text-red-700 border border-red-200';
-          diagText.innerText = latestAiText;
-          rulStatus.innerText = 'Urgent Attention';
-          rulStatus.className = 'block text-[10px] text-red-600 font-semibold mt-0.5';
-        } else if (anomalyScore >= 40) {
-          latestAiStatus = 'EARLY WARNING';
-          latestAiText = 'Neural Alert: Coupled vibration harmonics & compressor wear indicate early bearing spallation.';
-          liveImg.src = './engine_warning.jpg';
-          liveImg.onerror = function() { renderImageFallback(this, 'Jet Turbine Hardware CAD Display'); };
-          imgCard.className = 'corp-card p-6 border-amber-300 space-y-4';
-          hudTag.innerText = 'Stage 2: Overheating & Wear';
-          badge.innerText = 'Early Multivariate Anomaly';
-          badge.className = 'mt-4 px-4 py-1.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200';
-          diagText.innerText = latestAiText;
-          rulStatus.innerText = 'Schedule Maintenance';
-          rulStatus.className = 'block text-[10px] text-amber-600 font-semibold mt-0.5';
-        } else {
-          latestAiStatus = 'OPTIMAL';
-          latestAiText = 'Normal operational signatures detected across all 7 channels.';
-          liveImg.src = './engine_nominal.jpg';
-          liveImg.onerror = function() { renderImageFallback(this, 'Jet Turbine Hardware CAD Display'); };
-          imgCard.className = 'corp-card p-6 border-gray-200 space-y-4';
-          hudTag.innerText = 'Stage 1: Nominal';
-          badge.innerText = 'Healthy System';
-          badge.className = 'mt-4 px-4 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200';
-          diagText.innerText = latestAiText;
-          rulStatus.innerText = 'Nominal Status';
-          rulStatus.className = 'block text-[10px] text-emerald-600 font-semibold mt-0.5';
-        }
+      let imgSrc = './engine_nominal.jpg';
+      let stageText = 'Stage 1: Nominal';
+
+      if (anomalyScore >= 75) {
+        latestAiStatus = 'CRITICAL ALERT';
+        latestAiText = 'Neural Alert: High risk of turbine blade creep & bearing seizure. Immediate shutdown advised.';
+        imgSrc = './engine_critical.jpg';
+        stageText = 'Stage 3: Catastrophic Wear';
+        imgCard.className = 'hidden md:block corp-card p-6 border-red-300 space-y-4';
+        badge.innerText = 'Critical System Failure';
+        badge.className = 'mt-4 px-4 py-1.5 rounded-full text-xs font-semibold bg-red-50 text-red-700 border border-red-200';
+        diagText.innerText = latestAiText;
+        rulStatus.innerText = 'Urgent Attention';
+        rulStatus.className = 'block text-[10px] text-red-600 font-semibold mt-0.5';
+      } else if (anomalyScore >= 40) {
+        latestAiStatus = 'EARLY WARNING';
+        latestAiText = 'Neural Alert: Coupled vibration harmonics & compressor wear indicate early bearing spallation.';
+        imgSrc = './engine_warning.jpg';
+        stageText = 'Stage 2: Overheating & Wear';
+        imgCard.className = 'hidden md:block corp-card p-6 border-amber-300 space-y-4';
+        badge.innerText = 'Early Multivariate Anomaly';
+        badge.className = 'mt-4 px-4 py-1.5 rounded-full text-xs font-semibold bg-amber-50 text-amber-700 border border-amber-200';
+        diagText.innerText = latestAiText;
+        rulStatus.innerText = 'Schedule Maintenance';
+        rulStatus.className = 'block text-[10px] text-amber-600 font-semibold mt-0.5';
+      } else {
+        latestAiStatus = 'OPTIMAL';
+        latestAiText = 'Normal operational signatures detected across all 7 channels.';
+        imgSrc = './engine_nominal.jpg';
+        stageText = 'Stage 1: Nominal';
+        imgCard.className = 'hidden md:block corp-card p-6 border-gray-200 space-y-4';
+        badge.innerText = 'Healthy System';
+        badge.className = 'mt-4 px-4 py-1.5 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200';
+        diagText.innerText = latestAiText;
+        rulStatus.innerText = 'Nominal Status';
+        rulStatus.className = 'block text-[10px] text-emerald-600 font-semibold mt-0.5';
       }
+
+      if (liveImg) { liveImg.src = imgSrc; liveImg.onerror = function() { renderImageFallback(this, 'Jet Turbine Hardware CAD Display'); }; }
+      if (liveImgMobile) { liveImgMobile.src = imgSrc; liveImgMobile.onerror = function() { renderImageFallback(this, 'Jet Turbine Hardware Display'); }; }
+      if (hudTag) hudTag.innerText = stageText;
+      if (hudTagMobile) hudTagMobile.innerText = stageText;
 
       document.getElementById('ai-status-text').innerText = 'AI Status: ' + latestAiStatus + ' (' + anomalyScore + '%)';
 
