@@ -135,10 +135,10 @@
     
     <!-- High-End Aerospace Telemetry Header -->
     <header class="sticky top-0 z-50 aero-panel border-b border-[#232D3F] px-4 lg:px-8 py-3.5 mb-6 no-print">
-      <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="max-w-7xl mx-auto flex flex-col xl:flex-row items-center justify-between gap-4">
         
         <!-- Brand Title & Telemetry Status -->
-        <div class="flex items-center gap-3.5">
+        <div class="flex items-center gap-3.5 shrink-0">
           <div class="p-2.5 rounded-lg bg-[#1E293B] border border-[#232D3F] text-cyan-400 shadow-sm">
             <i data-lucide="plane-takeoff" class="w-6 h-6"></i>
           </div>
@@ -157,30 +157,30 @@
           </div>
         </div>
 
-        <!-- Navigation Tabs -->
-        <nav class="flex items-center gap-1.5 bg-[#0B0F17] p-1.5 rounded-lg border border-[#232D3F] overflow-x-auto max-w-full">
-          <button onclick="switchTab('overview')" id="tab-overview" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap bg-[#06B6D4] text-[#0B0F17] shadow-sm">
-            <i data-lucide="book-open" class="w-4 h-4"></i> Overview & History
+        <!-- Fully Visible Navigation Grid Bar (No Horizontal Slider / All Tabs Shown) -->
+        <nav class="w-full xl:w-auto bg-[#0B0F17] p-1.5 rounded-lg border border-[#232D3F] grid grid-cols-2 sm:grid-cols-3 xl:flex xl:flex-wrap xl:items-center gap-1.5">
+          <button onclick="switchTab('overview')" id="tab-overview" class="tab-btn flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-2 rounded-lg text-xs font-bold transition-all bg-[#06B6D4] text-[#0B0F17] shadow-sm text-center">
+            <i data-lucide="book-open" class="w-4 h-4 shrink-0"></i> <span>Overview & History</span>
           </button>
-          <button onclick="switchTab('diagnostics')" id="tab-diagnostics" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-[#1E293B] hover:bg-[#283548] transition-all whitespace-nowrap">
-            <i data-lucide="gauge" class="w-4 h-4 text-cyan-400"></i> Engine Diagnostics
+          <button onclick="switchTab('diagnostics')" id="tab-diagnostics" class="tab-btn flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-[#1E293B] hover:bg-[#283548] transition-all text-center">
+            <i data-lucide="gauge" class="w-4 h-4 text-cyan-400 shrink-0"></i> <span>Engine Diagnostics</span>
           </button>
-          <button onclick="switchTab('digital-twin')" id="tab-digital-twin" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-[#1E293B] hover:bg-[#283548] transition-all whitespace-nowrap">
-            <i data-lucide="layers" class="w-4 h-4 text-cyan-400"></i> Airframe Twin
+          <button onclick="switchTab('digital-twin')" id="tab-digital-twin" class="tab-btn flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-[#1E293B] hover:bg-[#283548] transition-all text-center">
+            <i data-lucide="layers" class="w-4 h-4 text-cyan-400 shrink-0"></i> <span>Airframe Twin</span>
           </button>
-          <button onclick="switchTab('trajectory')" id="tab-trajectory" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-[#1E293B] hover:bg-[#283548] transition-all whitespace-nowrap">
-            <i data-lucide="compass" class="w-4 h-4 text-cyan-400"></i> Trajectory Optimization
+          <button onclick="switchTab('trajectory')" id="tab-trajectory" class="tab-btn flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-[#1E293B] hover:bg-[#283548] transition-all text-center">
+            <i data-lucide="compass" class="w-4 h-4 text-cyan-400 shrink-0"></i> <span>Trajectory Optimization</span>
           </button>
-          <button onclick="switchTab('quiz')" id="tab-quiz" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-[#1E293B] hover:bg-[#283548] transition-all whitespace-nowrap">
-            <i data-lucide="award" class="w-4 h-4 text-cyan-400"></i> Quiz (10 Qs)
+          <button onclick="switchTab('quiz')" id="tab-quiz" class="tab-btn flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-[#1E293B] hover:bg-[#283548] transition-all text-center">
+            <i data-lucide="award" class="w-4 h-4 text-cyan-400 shrink-0"></i> <span>Quiz (10 Qs)</span>
           </button>
-          <button onclick="switchTab('cheat-sheet')" id="tab-cheat-sheet" class="tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-[#1E293B] hover:bg-[#283548] transition-all whitespace-nowrap">
-            <i data-lucide="printer" class="w-4 h-4 text-cyan-400"></i> Reference PDF
+          <button onclick="switchTab('cheat-sheet')" id="tab-cheat-sheet" class="tab-btn flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-[#1E293B] hover:bg-[#283548] transition-all text-center">
+            <i data-lucide="printer" class="w-4 h-4 text-cyan-400 shrink-0"></i> <span>Reference PDF</span>
           </button>
         </nav>
 
         <!-- Action Control -->
-        <button onclick="resetAllState()" class="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-mono font-medium text-slate-200 hover:text-white bg-[#1E293B] hover:bg-[#283548] border border-[#232D3F] transition">
+        <button onclick="resetAllState()" class="flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-mono font-medium text-slate-200 hover:text-white bg-[#1E293B] hover:bg-[#283548] border border-[#232D3F] transition shrink-0">
           <i data-lucide="rotate-ccw" class="w-3.5 h-3.5 text-cyan-400"></i> Reset Telemetry
         </button>
       </div>
@@ -1076,10 +1076,10 @@
         const btn = document.getElementById('tab-' + v);
         if (v === tabId) {
           el.classList.remove('hidden');
-          btn.className = 'tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-bold transition-all whitespace-nowrap bg-[#06B6D4] text-[#0B0F17] shadow-sm';
+          btn.className = 'tab-btn flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-2 rounded-lg text-xs font-bold transition-all bg-[#06B6D4] text-[#0B0F17] shadow-sm text-center';
         } else {
           el.classList.add('hidden');
-          btn.className = 'tab-btn flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-[#1E293B] hover:bg-[#283548] transition-all whitespace-nowrap';
+          btn.className = 'tab-btn flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-2 rounded-lg text-xs font-medium text-slate-300 hover:text-white bg-[#1E293B] hover:bg-[#283548] transition-all text-center';
         }
       });
 

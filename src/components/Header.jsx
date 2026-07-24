@@ -15,39 +15,39 @@ export default function Header({ activeTab, setActiveTab, onReset }) {
   }, []);
 
   const tabs = [
+    { id: 'overview', label: 'Overview & History', icon: BookOpen },
     { id: 'diagnostics', label: 'Engine Diagnostics', icon: Gauge },
-    { id: 'digital-twin', label: 'Digital Twin', icon: Layers },
-    { id: 'trajectory', label: 'Trajectory Planner', icon: Compass },
-    { id: 'quiz', label: 'Knowledge Check', icon: BookOpen },
-    { id: 'cheat-sheet', label: 'PDF Summary Sheet', icon: Printer },
+    { id: 'digital-twin', label: 'Airframe Twin', icon: Layers },
+    { id: 'trajectory', label: 'Trajectory Optimization', icon: Compass },
+    { id: 'quiz', label: 'Quiz (10 Qs)', icon: BookOpen },
+    { id: 'cheat-sheet', label: 'Reference PDF', icon: Printer },
   ];
 
   return (
-    <header className="sticky top-0 z-50 glass-panel border-b border-cyan-500/20 px-4 lg:px-8 py-3 mb-6 no-print">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+    <header className="sticky top-0 z-50 aero-panel border-b border-[#232D3F] px-4 lg:px-8 py-3.5 mb-6 no-print">
+      <div className="max-w-7xl mx-auto flex flex-col xl:flex-row items-center justify-between gap-4">
         {/* Brand & Telemetry */}
-        <div className="flex items-center gap-3">
-          <div className="relative p-2 rounded-xl bg-cyan-500/10 border border-cyan-400/40 text-cyan-400 shadow-cyan-glow">
-            <Cpu className="w-7 h-7 animate-pulse" />
-            <div className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></div>
+        <div className="flex items-center gap-3.5 shrink-0">
+          <div className="p-2.5 rounded-lg bg-[#1E293B] border border-[#232D3F] text-cyan-400 shadow-sm">
+            <Cpu className="w-6 h-6 animate-pulse" />
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <h1 className="text-xl font-extrabold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400">
-                GIDEX AEROAI EXPLORER
+            <div class="flex items-center gap-2">
+              <h1 className="text-lg font-bold tracking-tight text-white">
+                Gidex AeroAI Explorer
               </h1>
-              <span className="text-[10px] uppercase font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-400/30">
-                v1.0 MVP
+              <span className="text-[10px] uppercase font-mono px-2.5 py-0.5 rounded bg-[#1E293B] text-cyan-400 border border-[#232D3F] font-bold">
+                TELEMETRY SUITE
               </span>
             </div>
-            <p className="text-xs text-gray-400 font-mono flex items-center gap-2">
-              <span>COCKPIT TELEMETRY</span> • <span className="text-cyan-400 font-semibold">{timeStr}</span> • <span className="text-emerald-400 flex items-center gap-1"><ShieldCheck className="w-3 h-3"/> 100% LOCAL JS</span>
+            <p className="text-xs text-[#CBD5E1] font-mono flex items-center gap-2 mt-0.5">
+              <span>FLIGHT SYSTEM TELEMETRY</span> • <span className="text-cyan-400 font-bold">{timeStr}</span> • <span className="text-slate-300 flex items-center gap-1 font-semibold"><ShieldCheck className="w-3.5 h-3.5 text-cyan-400"/> PALANTIR / NASA FLIGHT SUITE</span>
             </p>
           </div>
         </div>
 
-        {/* Tab Navigation */}
-        <nav className="flex items-center gap-1 bg-gray-900/80 p-1.5 rounded-xl border border-gray-800 overflow-x-auto max-w-full">
+        {/* Tab Navigation - Fully Visible Grid Bar without slider */}
+        <nav className="w-full xl:w-auto bg-[#0B0F17] p-1.5 rounded-lg border border-[#232D3F] grid grid-cols-2 sm:grid-cols-3 xl:flex xl:flex-wrap xl:items-center gap-1.5">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isActive = activeTab === tab.id;
@@ -55,28 +55,28 @@ export default function Header({ activeTab, setActiveTab, onReset }) {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-lg text-xs font-medium transition-all duration-200 whitespace-nowrap ${
+                className={`flex items-center justify-center gap-1.5 sm:gap-2 px-2.5 sm:px-3.5 py-2 rounded-lg text-xs font-medium transition-all text-center ${
                   isActive
-                    ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-black font-bold shadow-cyan-glow'
-                    : 'text-gray-300 hover:text-cyan-300 hover:bg-white/5'
+                    ? 'bg-[#06B6D4] text-[#0B0F17] font-bold shadow-sm'
+                    : 'text-slate-300 hover:text-white bg-[#1E293B] hover:bg-[#283548]'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-black' : 'text-cyan-400'}`} />
-                {tab.label}
+                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#0B0F17]' : 'text-cyan-400'}`} />
+                <span>{tab.label}</span>
               </button>
             );
           })}
         </nav>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 shrink-0">
           <button
             onClick={onReset}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-mono font-medium text-gray-300 hover:text-white bg-gray-800/80 hover:bg-gray-700 border border-gray-700 transition"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-lg text-xs font-mono font-medium text-slate-200 hover:text-white bg-[#1E293B] hover:bg-[#283548] border border-[#232D3F] transition"
             title="Reset active simulation sliders to baseline"
           >
             <RefreshCw className="w-3.5 h-3.5 text-cyan-400" />
-            Reset State
+            Reset Telemetry
           </button>
         </div>
       </div>
